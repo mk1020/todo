@@ -30,7 +30,8 @@ const App = props => {
                 />
               );
             })}
-          </div>
+          </div> 
+          
           <div className={styles.wrapper_buttons}>
             {props.todo.forEach((item, i, arr) => {
               if (item.complete) {
