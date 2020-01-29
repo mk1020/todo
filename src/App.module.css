@@ -1,8 +1,5 @@
 .App {
-  text-align: center;
   border: 1px solid orange;
-  display: inline-flex;
-  flex-direction: row;
 }
 .App_wrapper_wrapper{
   display: flex;
@@ -11,29 +8,22 @@
   width: 100vw;
   height: 100vh;
 }
-.wrapper_App{
-  width: 500px;
-}
-.wrapper_buttons{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
 
-
-.wrapper_button button {
-  margin-top: 3px;
+.button {
   width: 100%;
   text-decoration: line-through;
 }
 
-.button_non {
-  margin-top: 3px;
-  width: 100%;
-}
-
-.wrapper_checkBox{
+.checkbox_and_button{
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: row;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+.checkbox_and_button:nth-last-child(1){
+  margin-bottom: 5px;
+
+}
+.App_wrapper{
+text-align: center;
 }
