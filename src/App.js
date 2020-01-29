@@ -4,7 +4,7 @@ import { Button, Checkbox, ListItem } from "@material-ui/core";
 import styles from "./App.module.css";
 import { connect } from "react-redux";
 import { checkBoxChangeCreate } from "./actions";
-import {Item_menu} from './components/item_menu'
+import { ItemMenu } from "./components/ItemMenu/ItemMenu";
 //todo: implement render item, remove two call map
 //todo:change call action
 
@@ -24,37 +24,48 @@ const Item = ({ text, checked, onChange = () => {} }) => (
 );
 
 const App = props => {
-  const { todo = [], checkBoxChangeCreate } = props;
+  const { listTask = [], checkBoxChangeCreate } = props;
 
   return (
     <div className={styles.App_wrapper_wrapper}>
       <div className={styles.App_wrapper}>
         <h1>app</h1>
-        <div className={styles.App}>
-          {todo.map((el, ind) => (
-            <Item
-              key={`item@${ind}`}
-              text={el.do}
-              checked={el.bool}
-              onChange={e => {
-                // передаем action
-                checkBoxChangeCreate({ ind: ind, bool: e.target.checked });
-              }}
-            />
-          ))}
-        </div>  
-        {  //find применяет стрелочную ф-ю к каждому эл массива
-          //когда стрелочная ф-я возвр true, find возвр элемент массива
-         //если ничего не найдено find возвр undefined
-        todo.find(el => el.bool) && <Item_menu />}
+        <div className={styles.app_and_item_menu}>
+          <div className={styles.App}>
+            {listTask.map((el, ind) => (
+              <Item
+                key={`item@${ind}`}
+                text={el.task}
+                checked={el.select}
+                onChange={e => {
+                  // передаем action
+                  checkBoxChangeCreate({ ind: ind, select: e.target.checked });
+                }}
+              />
+            ))}
+          </div>
+          <div
+            className={
+              listTask.find(el => el.select) ? styles.wrapper_Item_menu : ""
+            }
+          >
+            {//find применяет стрелочную ф-ю к каждому эл массива
+            //когда стрелочная ф-я возвр true, find возвр элемент массива
+            //если ничего не найдено find возвр undefined
+            listTask.find(el => el.select) && <ItemMenu />}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default connect(state => ({ todo: state.todo }), {
-  checkBoxChangeCreate
-})(App);
+export default connect(
+  state => ({ listTask: state.taskReducer.listTask }),
+  {
+    checkBoxChangeCreate
+  }
+)(App);
 
 //как в скобочка {} работают jsx компоненты
 //как выполняется отрисовка при нажатии на чек бокс

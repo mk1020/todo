@@ -1,32 +1,31 @@
-import * as types from '../actions'
+import * as types from "../actions";
 const initialState = {
-  todo: [
-    { do: "wash the dishes", bool: false, complete: false },
-    { do: "write todo", bool: false, complete: false },
-    { do: "go to Mars", bool: false, complete: false },
-    { do: "meal", bool: false, complete: false },
-    { do: "jump 3 times", bool: false, complete: false },
-    { do: "learn English", bool: false, complete: false }
+  listTask: [
+    { task: "wash the dishes", id: 0, select: false, complete: false },
+    { task: "write todo", id: 1, select: false, complete: false },
+    { task: "go to Mars", id: 2, select: false, complete: true },
+    { task: "meal", id: 3, select: false, complete: false },
+    { task: "jump 3 times", id: 4, select: false, complete: false },
+    { task: "learn English", id: 5, select: false, complete: false }
   ]
 };
 
-const todoReducer = (state = initialState, action) => {
+export const taskReducer = (state = initialState, action) => {
   //создаем копию стайт, потом копию массив, а потом можно менять массив
 
   switch (action.type) {
-    case types.CHECK_BOX_CHANGE: {
-      const stateCopy = { ...state, todo: [...state.todo] };
-      console.log(action);
-      stateCopy.todo[action.ind] = {
-        do: stateCopy.todo[action.ind].do,
-        bool: action.bool
-      };
+    case types.SELECT_TASK: {
+      const stateCopy = { ...state, listTask: [...state.listTask] };
+      stateCopy.listTask[action.ind].select = action.select;
       return stateCopy;
     }
-
+    case types.ON_CLICK_COMPLETE:{
+      const stateCopy = { ...state, listTask: [...state.listTask] };
+      stateCopy.listTask[action.id].complete = true;
+      return stateCopy;
+    }
     default:
       return state;
   }
 };
 
-export default todoReducer;

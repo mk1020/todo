@@ -1,9 +1,13 @@
 //todo rename parametrs and type name
-export const CHECK_BOX_CHANGE= "CHECK-BOX-CHANGE"
-export const checkBoxChangeCreate = ({bool, ind}) =>(
-         {
-        type: CHECK_BOX_CHANGE,
-        bool: bool,
-        ind: ind
-      }
-    );
+export const SELECT_TASK = "SELECT_TASK";
+export const ON_CLICK_COMPLETE = "ON_CLICK_COMPLETE";
+
+export const checkBoxChangeCreate = ({ select, ind }) => ({
+  type: SELECT_TASK,
+  select: select,
+  ind: ind
+});
+export const onClickButtonCreate = object => ({
+  type: ON_CLICK_COMPLETE,
+  object: object
+});

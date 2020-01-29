@@ -1,0 +1,9 @@
+.wrapper_button{
+    display: flex;
+}
+
+.button::after {
+    content: "";
+    border-right: 1px solid orange;
+
+}

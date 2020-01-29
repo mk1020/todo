@@ -1,5 +1,6 @@
 .App {
   border: 1px solid orange;
+
 }
 .App_wrapper_wrapper{
   display: flex;
@@ -26,4 +27,14 @@
 }
 .App_wrapper{
 text-align: center;
+}
+.wrapper_Item_menu{
+  border-top: 1px solid orange;
+  border-right: 1px solid orange;
+  border-bottom: 1px solid orange;
+  display: flex;
+}
+.app_and_item_menu{
+  display: flex;
+  width: 460px;
 }
