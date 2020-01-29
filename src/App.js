@@ -4,7 +4,7 @@ import { Button, Checkbox, ListItem } from "@material-ui/core";
 import styles from "./App.module.css";
 import { connect } from "react-redux";
 import { checkBoxChangeCreate } from "./actions";
-import { ItemMenu } from "./components/ItemMenu/ItemMenu";
+import  ItemMenu  from "./components/ItemMenu/ItemMenu";
 //todo: implement render item, remove two call map
 //todo:change call action
 

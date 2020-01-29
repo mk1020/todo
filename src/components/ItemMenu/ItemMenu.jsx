@@ -4,12 +4,12 @@ import styles from "./actions.module.css";
 import { connect } from "react-redux";
 import { onClickButtonCreate } from "../../actions/index";
 
-export const ItemMenu = props => {
+ const ItemMenu = props => {
   // todo move work with store to action and reducers
-  const { listTask=[],  } = props;
-  const {onClickButtonCreate} = props;
-
   console.log('props', props);
+
+  const { listTask=[],onClickButtonCreate } = props;
+
 
   return (
     <div className={styles.wrapper_button}>
@@ -32,13 +32,8 @@ export const ItemMenu = props => {
 };
 
 export default connect(
-  state => ({ listTask: state.taskReducer.listTask }),
+  state => ({ listTask: state.taskReducer.listTask,test:1 }),
   {onClickButtonCreate}
 )(ItemMenu);
 
-// export default connect(
-//   state => ({ listTask: state.taskReducer.listTask }),
-//   {
-//     checkBoxChangeCreate
-//   }
-// )(App);
+
