@@ -6,16 +6,13 @@ import { onClickButtonCreate } from "../../actions/index";
 
  const ItemMenu = props => {
   // todo move work with store to action and reducers
-  console.log('props', props);
 
   const { listTask=[],onClickButtonCreate } = props;
-
-
   return (
     <div className={styles.wrapper_button}>
       <Button
         className={styles.button}
-        onClick={() => onClickButtonCreate(listTask.find((el)=> el.comlete ))}
+        onClick={() => onClickButtonCreate(listTask.find((el)=> el.select ))}
         variant="outlined"
         color="secondary"
       >
@@ -32,7 +29,7 @@ import { onClickButtonCreate } from "../../actions/index";
 };
 
 export default connect(
-  state => ({ listTask: state.taskReducer.listTask,test:1 }),
+  state => ({ listTask: state.taskReducer.listTask}),
   {onClickButtonCreate}
 )(ItemMenu);
 

@@ -10,9 +10,21 @@
   height: 100vh;
 }
 
-.button {
+.wrapper_button {
+width: 100%;
+}
+
+.wrapper_button_non_line_through{
+  width: 100%;
+}
+
+.wrapper_button Button{
   width: 100%;
   text-decoration: line-through;
+}
+
+.wrapper_button_non_line_through Button{
+  width: 100%;
 }
 
 .checkbox_and_button{
@@ -36,5 +48,5 @@ text-align: center;
 }
 .app_and_item_menu{
   display: flex;
-  width: 460px;
+  width: 470px;
 }
