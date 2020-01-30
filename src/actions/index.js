@@ -2,6 +2,7 @@
 export const SELECT_TASK = "SELECT_TASK";
 export const ON_CLICK_COMPLETE = "ON_CLICK_COMPLETE";
 export const WORKED_COMPLETE = "WORKED_COMPLETE";
+export const DELETE_TASK = "DELETE_TASK"; 
 
 export const checkBoxChangeCreate = ({ select, ind }) => ({
   type: SELECT_TASK,
@@ -17,3 +18,7 @@ export const workedComplete = id => ({
   type: WORKED_COMPLETE,
   id: id
 });
+
+export const deleteTasks = () => ({
+   type: DELETE_TASK,
+})

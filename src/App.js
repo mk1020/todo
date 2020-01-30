@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDom from "react-dom";
 import { Button, Checkbox, ListItem } from "@material-ui/core";
 import styles from "./App.module.css";
@@ -9,14 +9,14 @@ import ItemMenu from "./components/ItemMenu/ItemMenu";
 //todo:change call action
 
 const Item = props => {
+  
   const {
     text,
     checked,
     onChange = () => {},
     onComplete,
-    workedComplete
   } = props;
-  console.log(onComplete);
+
   return (
     <div className={styles.checkbox_and_button}>
       <Checkbox
@@ -37,7 +37,6 @@ const Item = props => {
           {text}
         </Button>
       </div>
-      {onComplete ? workedComplete() : ""}
     </div>
   );
 };

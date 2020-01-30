@@ -20,8 +20,17 @@ export const taskReducer = (state = initialState, action) => {
     }
     case types.ON_CLICK_COMPLETE: {
       let stateCopy = { ...state, listTask: [...state.listTask] };
-      stateCopy.listTask[action.id].complete = true;
+
+      stateCopy.listTask[action.id].complete
+        ? (stateCopy.listTask[action.id].complete = false)
+        : (stateCopy.listTask[action.id].complete = true);
       return stateCopy;
+    }
+    case types.DELETE_TASK: {
+      let stateCopy = { ...state, listTask: [...state.listTask] };
+        stateCopy= stateCopy.map( (el)=> (
+           el.select === false ?  return el
+        ))
     }
     default:
       return state;
