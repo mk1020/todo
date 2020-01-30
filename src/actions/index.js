@@ -8,12 +8,12 @@ export const checkBoxChangeCreate = ({ select, ind }) => ({
   select: select,
   ind: ind
 });
-export const onClickButtonCreate = object => ({
+export const onClickButtonCreate = id => ({
   type: ON_CLICK_COMPLETE,
-  object: object
+  id: id
 });
 
-export const workedComplete = (id) =>({
-    type: WORKED_COMPLETE,
-    id: id
-})
+export const workedComplete = id => ({
+  type: WORKED_COMPLETE,
+  id: id
+});

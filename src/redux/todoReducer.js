@@ -7,8 +7,8 @@ const initialState = {
     { task: "meal", id: 3, select: false, complete: false },
     { task: "jump 3 times", id: 4, select: false, complete: false },
     { task: "learn English", id: 5, select: false, complete: false }
-  ] 
-}; 
+  ]
+};
 
 export const taskReducer = (state = initialState, action) => {
   //создаем копию стайт, потом копию массив, а потом можно менять массив
@@ -18,13 +18,12 @@ export const taskReducer = (state = initialState, action) => {
       stateCopy.listTask[action.ind].select = action.select;
       return stateCopy;
     }
-    case action.object && types.ON_CLICK_COMPLETE:{
-      const stateCopy = { ...state, listTask: [...state.listTask] };
-      stateCopy.listTask[action.object.id].complete = true;
+    case types.ON_CLICK_COMPLETE: {
+      let stateCopy = { ...state, listTask: [...state.listTask] };
+      stateCopy.listTask[action.id].complete = true;
       return stateCopy;
     }
     default:
       return state;
   }
 };
-

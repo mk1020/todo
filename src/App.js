@@ -9,8 +9,14 @@ import ItemMenu from "./components/ItemMenu/ItemMenu";
 //todo:change call action
 
 const Item = props => {
-  const { text, checked, onChange = () => {}, onComplete, workedComplete } = props
- console.log (onComplete)
+  const {
+    text,
+    checked,
+    onChange = () => {},
+    onComplete,
+    workedComplete
+  } = props;
+  console.log(onComplete);
   return (
     <div className={styles.checkbox_and_button}>
       <Checkbox
@@ -20,12 +26,18 @@ const Item = props => {
         value="primary"
         inputProps={{ "aria-label": "primary checkbox" }}
       />
-      <div className={onComplete ? styles.wrapper_button : styles.wrapper_button_non_line_through}>
-        <Button variant="contained" color="primary" >
+      <div
+        className={
+          onComplete
+            ? styles.wrapper_button
+            : styles.wrapper_button_non_line_through
+        }
+      >
+        <Button variant="contained" color="primary">
           {text}
         </Button>
       </div>
-      {onComplete ? workedComplete(): ""}
+      {onComplete ? workedComplete() : ""}
     </div>
   );
 };
@@ -41,6 +53,7 @@ const App = props => {
           <div className={styles.App}>
             {listTask.map((el, ind) => (
               <Item
+                key={el.id}
                 text={el.task}
                 checked={el.select}
                 onChange={e => {
@@ -48,7 +61,7 @@ const App = props => {
                   checkBoxChangeCreate({ ind: ind, select: e.target.checked });
                 }}
                 onComplete={el.complete}
-                workedComplete= {()=>  workedComplete(ind)}
+                workedComplete={() => workedComplete(ind)}
               />
             ))}
           </div>
@@ -69,7 +82,8 @@ const App = props => {
 };
 
 export default connect(state => ({ listTask: state.taskReducer.listTask }), {
-  checkBoxChangeCreate, workedComplete
+  checkBoxChangeCreate,
+  workedComplete
 })(App);
 
 //как в скобочка {} работают jsx компоненты

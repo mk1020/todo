@@ -12,7 +12,7 @@ import { onClickButtonCreate } from "../../actions/index";
     <div className={styles.wrapper_button}>
       <Button
         className={styles.button}
-        onClick={() => onClickButtonCreate(listTask.find((el)=> el.select ))}
+        onClick={() => onClickButtonCreate(listTask.find((el)=> el.select ).id)}
         variant="outlined"
         color="secondary"
       >
