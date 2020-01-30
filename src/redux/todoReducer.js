@@ -19,20 +19,22 @@ export const taskReducer = (state = initialState, action) => {
       return stateCopy;
     }
     case types.ON_CLICK_COMPLETE: {
-      let stateCopy = { ...state, listTask: [...state.listTask] };
-
-      stateCopy.listTask[action.id].complete
-        ? (stateCopy.listTask[action.id].complete = false)
-        : (stateCopy.listTask[action.id].complete = true);
-      return stateCopy;
+      return {
+        ...state,
+        listTask: state.listTask.map(task => {
+         if (task.complete ===false) task.complete = task.select     
+          return task;
+        })
+      };
     }
     case types.DELETE_TASK: {
-      let stateCopy = { ...state, listTask: [...state.listTask] };
-        stateCopy= stateCopy.map( (el)=> (
-           el.select === false ?  return el
-        ))
+      return {
+        ...state,
+        listTask: state.listTask.filter(task => !task.select)
+      };
     }
     default:
       return state;
   }
 };
+//какую логику можно писать в ретурне???
