@@ -39,6 +39,7 @@ width: 100%;
 }
 .App_wrapper{
 text-align: center;
+height: 470px;
 }
 .wrapper_Item_menu{
   border-top: 1px solid orange;
@@ -49,4 +50,9 @@ text-align: center;
 .app_and_item_menu{
   display: flex;
   width: 470px;
+}
+
+.textarea{
+  width: 100%;
+  height: 70px;
 }

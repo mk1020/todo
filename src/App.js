@@ -75,6 +75,7 @@ const App = props => {
             listTask.find(el => el.select) && <ItemMenu />}
           </div>
         </div>
+       {listTask.find(el=> el.editor) && <textarea className={styles.textarea}>fdffd</textarea>} 
       </div>
     </div>
   );

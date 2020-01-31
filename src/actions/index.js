@@ -23,6 +23,6 @@ export const deleteTasks = () => ({
    type: DELETE_TASK
 })
 
-export const editTask = ()=>({
-  type:EDIT_TASK
-})
+export const editTask = ()=> ({
+  type: EDIT_TASK
+});

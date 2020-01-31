@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@material-ui/core";
 import styles from "./actions.module.css";
 import { connect } from "react-redux";
@@ -6,8 +6,8 @@ import { onClickButtonCreate, deleteTasks, editTask} from "../../actions/index";
 
  const ItemMenu = props => {
   // todo move work with store to action and reducers
-
-  const { listTask=[],onClickButtonCreate, deleteTasks } = props;
+  const {onClickButtonCreate, deleteTasks, editTask, listTask } = props;
+ 
   return (
     <div className={styles.wrapper_button}>
       <Button
@@ -21,9 +21,10 @@ import { onClickButtonCreate, deleteTasks, editTask} from "../../actions/index";
       <Button variant="outlined" color="secondary"  onClick={deleteTasks}>
         Delete
       </Button>
-      <Button variant="outlined" color="secondary" onClick={editTask}>
+      
+       <Button variant="outlined" color="secondary" onClick={editTask}>
         Edit
-      </Button>
+      </Button> 
     </div>
   );
 };
@@ -34,3 +35,4 @@ export default connect(
 )(ItemMenu);
 
 
+//listTask.reduce((count, el)=> (el.select) ? count++  :null
