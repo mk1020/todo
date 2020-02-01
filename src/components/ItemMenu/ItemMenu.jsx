@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@material-ui/core";
 import styles from "./actions.module.css";
 import { connect } from "react-redux";
@@ -7,7 +7,14 @@ import { onClickButtonCreate, deleteTasks, editTask} from "../../actions/index";
  const ItemMenu = props => {
   // todo move work with store to action and reducers
   const {onClickButtonCreate, deleteTasks, editTask, listTask } = props;
- 
+  let [countSelect, setCountSelect] = useState(0);
+   
+     listTask.forEach((el)=> {
+      if (el.select) setCountSelect(countSelect+1)
+     })
+     
+     console.log(countSelect);
+
   return (
     <div className={styles.wrapper_button}>
       <Button
