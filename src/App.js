@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
-import ReactDom from "react-dom";
-import { Button, Checkbox, ListItem } from "@material-ui/core";
+import { Button, Checkbox } from "@material-ui/core";
 import styles from "./App.module.css";
+import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { checkBoxChangeCreate, workedComplete } from "./actions";
+import {
+  checkBoxChangeCreate,
+  workedComplete,
+  changeTask,
+  addTask,
+  sortTask
+} from "./actions";
 import ItemMenu from "./components/ItemMenu/ItemMenu";
+import TextField from "@material-ui/core/TextField";
 
 //todo: implement render item, remove two call map
 //todo:change call action
 
 const Item = props => {
-  
-  const {
-    text,
-    checked,
-    onChange = () => {},
-    onComplete,
-  } = props;
+  const { text, checked, onChange = () => {}, onComplete } = props;
 
   return (
     <div className={styles.checkbox_and_button}>
@@ -43,41 +44,117 @@ const Item = props => {
 };
 
 const App = props => {
-  const { listTask = [], checkBoxChangeCreate, workedComplete } = props;
-
-  
+  const {
+    listTask = [],
+    checkBoxChangeCreate,
+    workedComplete,
+    changeTask,
+    addTask,
+    sortTask
+  } = props;
+  let [valueTextArea, setValueTextArea] = useState("");
+  let [eventAddTask, setEventAddTask] = useState(false);
+  let [eventSort, setEventSort] = useState(false);
   return (
     <div className={styles.App_wrapper_wrapper}>
       <div className={styles.App_wrapper}>
         <h1>app</h1>
+
         <div className={styles.app_and_item_menu}>
-          <div className={styles.App}>
-            {listTask.map((el, ind) => (
-              <Item
-                key={el.id}
-                text={el.task}
-                checked={el.select}
-                onChange={e => {
-                  // передаем action
-                  checkBoxChangeCreate({ ind: ind, select: e.target.checked });
-                }}
-                onComplete={el.complete}
-                workedComplete={() => workedComplete(ind)}
-              />
-            ))}
-          </div>
-          <div
-            className={
-              listTask.find(el => el.select) ? styles.wrapper_Item_menu : ""
-            }
-          >
-            {//find применяет стрелочную ф-ю к каждому эл массива
-            //когда стрелочная ф-я возвр true, find возвр элемент массива
-            //если ничего не найдено find возвр undefined
-            listTask.find(el => el.select) && <ItemMenu />}
+          <div>
+            <div className={styles.app_item_menu}>
+              <div className={styles.App}>
+                <div
+                  className={
+                    eventAddTask
+                      ? styles.wrapper_button_add_task
+                      : styles.wrapper_button_add_task_none_style
+                  }
+                >
+                  <div className={styles.wrapper_button_sort}>
+                    <Button
+                      onClick={() => setEventSort(true)}
+                      variant="outlined"
+                      size="large"
+                      color="primary"
+                      className={styles.button_add_and_sort}
+                    >
+                      Sort
+                    </Button>
+                  </div>
+                  <Button
+                    onClick={() => {
+                      setValueTextArea("");
+                      return setEventAddTask(!eventAddTask);
+                    }}
+                    variant="outlined"
+                    size="large"
+                    color="primary"
+                    className={styles.button_add_and_sort}
+                  >
+                    Add Task
+                  </Button>
+                </div>
+                {listTask.map((el, ind) => (
+                  <Item
+                    key={el.id}
+                    text={el.task}
+                    checked={el.select}
+                    onChange={e => {
+                      // передаем action<Button variant="contained">Default</Button>
+                      checkBoxChangeCreate({
+                        ind: ind,
+                        select: e.target.checked
+                      });
+                    }}
+                    onComplete={el.complete}
+                    workedComplete={() => workedComplete(ind)}
+                  />
+                ))}
+              </div>
+              <div
+                className={
+                  listTask.find(el => el.select) ? styles.wrapper_Item_menu : ""
+                }
+              >
+                {//find применяет стрелочную ф-ю к каждому эл массива
+                //когда стрелочная ф-я возвр true, find возвр элемент массива
+                //если ничего не найдено find возвр undefined
+                listTask.find(el => el.select) && <ItemMenu />}
+              </div>
+            </div>
           </div>
         </div>
-       {listTask.find(el=> el.editor) && <textarea className={styles.textarea}>fdffd</textarea>} 
+        {((listTask.filter(el => el.select).length === 1 &&
+          listTask.find(el => el.editor)) ||
+          eventAddTask) && (
+          <div className={styles.TextField_and_button}>
+            <TextField
+              id="outlined-multiline-static"
+              multiline
+              rows="4"
+              variant="outlined"
+              onChange={e => setValueTextArea(e.target.value)}
+              value={valueTextArea}
+              className={styles.TextField}
+            />
+            <Button
+              variant="outlined"
+              className={styles.Button_enter}
+              color="secondary"
+              onClick={() => {
+                if (eventAddTask) {
+                  addTask(valueTextArea);
+                } else if (valueTextArea !== "") {
+                  setValueTextArea("");
+                  changeTask(valueTextArea);
+                }
+              }}
+            >
+              Enter
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -85,8 +162,13 @@ const App = props => {
 
 export default connect(state => ({ listTask: state.taskReducer.listTask }), {
   checkBoxChangeCreate,
-  workedComplete
+  workedComplete,
+  changeTask,
+  addTask,
+  sortTask
 })(App);
 
-//как в скобочка {} работают jsx компоненты
 //как выполняется отрисовка при нажатии на чек бокс
+// как сделать меню появляющееся при наведении на SORT
+// драгон дроп, сортировка
+// запоминать дату создания таски и сделать вкладку информация - где будет эта дата

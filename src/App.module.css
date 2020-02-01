@@ -38,8 +38,8 @@ width: 100%;
 
 }
 .App_wrapper{
-text-align: center;
-height: 470px;
+height: 465px;
+width: 465px;
 }
 .wrapper_Item_menu{
   border-top: 1px solid orange;
@@ -49,10 +49,39 @@ height: 470px;
 }
 .app_and_item_menu{
   display: flex;
-  width: 470px;
 }
 
-.textarea{
+.TextField{
   width: 100%;
-  height: 70px;
+}
+.wrapper_button_add_task Button, .wrapper_button_add_task Button:hover  {
+  background-color: coral;
+}
+
+.wrapper_button_add_task_none_style{
+
+}
+
+.wrapper_button_sort Button, .wrapper_button_sort Button:hover{
+  background-color: white;
+
+}
+.button_add_and_sort{
+   width: 100%;
+}
+
+.TextField_and_button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.TextField_and_button Button {
+  width: 20%;
+}
+
+.app_item_menu{
+  display: flex;
+  flex-direction: row;
 }
