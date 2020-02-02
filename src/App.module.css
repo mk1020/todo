@@ -1,8 +1,8 @@
 .App {
   border: 1px solid orange;
-
+  width: 250px;
 }
-.App_wrapper_wrapper{
+.App_wrapper_wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,77 +11,77 @@
 }
 
 .wrapper_button {
-width: 100%;
-}
-
-.wrapper_button_non_line_through{
   width: 100%;
 }
 
-.wrapper_button Button{
+.wrapper_button_non_line_through {
+  width: 100%;
+}
+
+.wrapper_button button {
   width: 100%;
   text-decoration: line-through;
 }
 
-.wrapper_button_non_line_through Button{
+.wrapper_button_non_line_through button {
   width: 100%;
 }
 
-.checkbox_and_button{
+.checkbox_and_button {
   display: flex;
   flex-direction: row;
   margin-top: 5px;
   margin-right: 5px;
 }
-.checkbox_and_button:nth-last-child(1){
+.checkbox_and_button:nth-last-child(1) {
   margin-bottom: 5px;
-
 }
-.App_wrapper{
-height: 465px;
-width: 465px;
+.App_wrapper {
+  height: 465px;
+  width: 500px;
 }
-.wrapper_Item_menu{
+.wrapper_Item_menu {
   border-top: 1px solid orange;
   border-right: 1px solid orange;
   border-bottom: 1px solid orange;
-  display: flex;
 }
-.app_and_item_menu{
+.app_and_item_menu {
   display: flex;
 }
 
-.TextField{
+.TextField {
   width: 100%;
 }
-.wrapper_button_add_task Button, .wrapper_button_add_task Button:hover  {
+.add_task button,
+.button_add_task button:hover {
   background-color: coral;
 }
 
-.wrapper_button_add_task_none_style{
-
+.button_add_task_none_style {
 }
 
-.wrapper_button_sort Button, .wrapper_button_sort Button:hover{
+.wrapper_button_sort button {
   background-color: white;
-
-}
-.button_add_and_sort{
-   width: 100%;
 }
 
-.TextField_and_button{
+
+
+
+.button_add_and_sort {
+  width: 100%;
+}
+
+.TextField_and_button {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
-.TextField_and_button Button {
+.TextField_and_button button {
   width: 20%;
 }
 
-.app_item_menu{
+.app_item_menu {
   display: flex;
   flex-direction: row;
 }

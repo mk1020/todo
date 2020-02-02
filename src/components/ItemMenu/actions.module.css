@@ -1,9 +1,16 @@
 .wrapper_button{
     display: flex;
+    flex-wrap: wrap;
 }
 
 .button::after {
     content: "";
     border-right: 1px solid orange;
-
+}
+.wrapper_button button {
+    width: 50%;
+    height: 100%;
+}
+.wrapper{
+    width: 100%;
 }

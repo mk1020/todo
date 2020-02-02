@@ -8,7 +8,9 @@ import {
   workedComplete,
   changeTask,
   addTask,
-  sortTask
+  sortTask,
+  sortABC,
+  randomOrder
 } from "./actions";
 import ItemMenu from "./components/ItemMenu/ItemMenu";
 import TextField from "@material-ui/core/TextField";
@@ -50,68 +52,69 @@ const App = props => {
     workedComplete,
     changeTask,
     addTask,
-    sortTask
+    sortTask,
+    sortABC,
+    randomOrder
   } = props;
   let [valueTextArea, setValueTextArea] = useState("");
   let [eventAddTask, setEventAddTask] = useState(false);
   let [eventSort, setEventSort] = useState(false);
+  let date = new Date();
   return (
     <div className={styles.App_wrapper_wrapper}>
       <div className={styles.App_wrapper}>
         <h1>app</h1>
 
         <div className={styles.app_and_item_menu}>
-          <div>
-            <div className={styles.app_item_menu}>
-              <div className={styles.App}>
-                <div
-                  className={
-                    eventAddTask
-                      ? styles.wrapper_button_add_task
-                      : styles.wrapper_button_add_task_none_style
-                  }
-                >
-                  <div className={styles.wrapper_button_sort}>
-                    <Button
-                      onClick={() => setEventSort(true)}
-                      variant="outlined"
-                      size="large"
-                      color="primary"
-                      className={styles.button_add_and_sort}
-                    >
-                      Sort
-                    </Button>
-                  </div>
+          <div className={styles.app_item_menu}>
+            <div className={styles.App}>
+              <div
+                className={
+                  eventAddTask
+                    ? styles.button_add_task
+                    : styles.add_task_none_style
+                }
+              >
+                <div className={styles.wrapper_button_sort}>
                   <Button
-                    onClick={() => {
-                      setValueTextArea("");
-                      return setEventAddTask(!eventAddTask);
-                    }}
+                    onClick={() => setEventSort(!eventSort)}
                     variant="outlined"
                     size="large"
                     color="primary"
                     className={styles.button_add_and_sort}
                   >
-                    Add Task
+                    Sort
                   </Button>
                 </div>
-                {listTask.map((el, ind) => (
-                  <Item
-                    key={el.id}
-                    text={el.task}
-                    checked={el.select}
-                    onChange={e => {
-                      // передаем action<Button variant="contained">Default</Button>
-                      checkBoxChangeCreate({
-                        ind: ind,
-                        select: e.target.checked
-                      });
-                    }}
-                    onComplete={el.complete}
-                    workedComplete={() => workedComplete(ind)}
-                  />
-                ))}
+                <Button
+                  onClick={() => {
+                    setValueTextArea("");
+                    return setEventAddTask(!eventAddTask);
+                  }}
+                  variant="outlined"
+                  size="large"
+                  color="primary"
+                  className={styles.button_add_and_sort}
+                >
+                  Add Task
+                </Button>
               </div>
+              {listTask.map((el, ind) => (
+                <Item
+                  key={el.id}
+                  text={el.task}
+                  checked={el.select}
+                  onChange={e => {
+                    // передаем action<Button variant="contained">Default</Button>
+                    checkBoxChangeCreate({
+                      ind: ind,
+                      select: e.target.checked
+                    });
+                  }}
+                  onComplete={el.complete}
+                  workedComplete={() => workedComplete(ind)}
+                />
+              ))}
               <div
                 className={
                   listTask.find(el => el.select) ? styles.wrapper_Item_menu : ""
@@ -123,6 +126,23 @@ const App = props => {
                 listTask.find(el => el.select) && <ItemMenu />}
               </div>
             </div>
+            {eventSort && (
+              <div className={styles.types_sort}>
+                <Button onClick={() => sortABC()} variant="contained">
+                  ABC
+                </Button>
+                <Button onClick={() => randomOrder()} variant="contained">
+                  Random
+                </Button>
+              </div>
+            )}
+            {listTask.filter(el => el.select).length === 1 &&
+              listTask[listTask.findIndex(el => el.select)].showDate && (
+                <div>
+                  Date the selected task:
+                  {listTask[listTask.findIndex(el => el.select)].date}
+                </div>
+              )}
           </div>
         </div>
         {((listTask.filter(el => el.select).length === 1 &&
@@ -143,7 +163,8 @@ const App = props => {
               className={styles.Button_enter}
               color="secondary"
               onClick={() => {
-                if (eventAddTask) {
+                if (eventAddTask && valueTextArea !== "") {
+                  setValueTextArea("");
                   addTask(valueTextArea);
                 } else if (valueTextArea !== "") {
                   setValueTextArea("");
@@ -165,10 +186,13 @@ export default connect(state => ({ listTask: state.taskReducer.listTask }), {
   workedComplete,
   changeTask,
   addTask,
-  sortTask
+  sortTask,
+  sortABC,
+  randomOrder
 })(App);
 
 //как выполняется отрисовка при нажатии на чек бокс
 // как сделать меню появляющееся при наведении на SORT
 // драгон дроп, сортировка
 // запоминать дату создания таски и сделать вкладку информация - где будет эта дата
+//сортировка по дате
