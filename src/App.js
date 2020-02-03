@@ -10,7 +10,8 @@ import {
   addTask,
   sortTask,
   sortABC,
-  randomOrder
+  randomOrder,
+  dateSort
 } from "./actions";
 import ItemMenu from "./components/ItemMenu/ItemMenu";
 import TextField from "@material-ui/core/TextField";
@@ -54,12 +55,15 @@ const App = props => {
     addTask,
     sortTask,
     sortABC,
-    randomOrder
+    randomOrder,
+    dateSort
   } = props;
   let [valueTextArea, setValueTextArea] = useState("");
   let [eventAddTask, setEventAddTask] = useState(false);
   let [eventSort, setEventSort] = useState(false);
-  let date = new Date();
+
+  const onClickCreationDate = listTask[listTask.findIndex(el => el.showDate)];
+
   return (
     <div className={styles.App_wrapper_wrapper}>
       <div className={styles.App_wrapper}>
@@ -67,64 +71,99 @@ const App = props => {
 
         <div className={styles.app_and_item_menu}>
           <div className={styles.app_item_menu}>
-            <div className={styles.App}>
-              <div
-                className={
-                  eventAddTask
-                    ? styles.button_add_task
-                    : styles.add_task_none_style
-                }
-              >
-                <div className={styles.wrapper_button_sort}>
+            <div>
+              <div className={styles.App}>
+                <div
+                  className={
+                    eventAddTask
+                      ? styles.button_add_task
+                      : styles.add_task_none_style
+                  }
+                >
+                  <div className={styles.wrapper_button_sort}>
+                    <Button
+                      onClick={() => setEventSort(!eventSort)}
+                      variant="outlined"
+                      size="large"
+                      color="primary"
+                      className={styles.button_add_and_sort}
+                    >
+                      Sort
+                    </Button>
+                  </div>
                   <Button
-                    onClick={() => setEventSort(!eventSort)}
+                    onClick={() => {
+                      setValueTextArea("");
+                      return setEventAddTask(!eventAddTask);
+                    }}
                     variant="outlined"
                     size="large"
                     color="primary"
                     className={styles.button_add_and_sort}
                   >
-                    Sort
+                    Add Task
                   </Button>
                 </div>
-                <Button
-                  onClick={() => {
-                    setValueTextArea("");
-                    return setEventAddTask(!eventAddTask);
-                  }}
-                  variant="outlined"
-                  size="large"
-                  color="primary"
-                  className={styles.button_add_and_sort}
+                {listTask.map((el, ind) => (
+                  <Item
+                    key={el.id}
+                    text={el.task}
+                    checked={el.select}
+                    onChange={e => {
+                      // передаем action<Button variant="contained">Default</Button>
+                      checkBoxChangeCreate({
+                        ind: ind,
+                        select: e.target.checked
+                      });
+                    }}
+                    onComplete={el.complete}
+                    workedComplete={() => workedComplete(ind)}
+                  />
+                ))}
+                <div
+                  className={
+                    listTask.find(el => el.select)
+                      ? styles.wrapper_Item_menu
+                      : ""
+                  }
                 >
-                  Add Task
-                </Button>
+                  {//find применяет стрелочную ф-ю к каждому эл массива
+                  //когда стрелочная ф-я возвр true, find возвр элемент массива
+                  //если ничего не найдено find возвр undefined
+                  listTask.find(el => el.select) && <ItemMenu />}
+                </div>
               </div>
-              {listTask.map((el, ind) => (
-                <Item
-                  key={el.id}
-                  text={el.task}
-                  checked={el.select}
-                  onChange={e => {
-                    // передаем action<Button variant="contained">Default</Button>
-                    checkBoxChangeCreate({
-                      ind: ind,
-                      select: e.target.checked
-                    });
-                  }}
-                  onComplete={el.complete}
-                  workedComplete={() => workedComplete(ind)}
-                />
-              ))}
-              <div
-                className={
-                  listTask.find(el => el.select) ? styles.wrapper_Item_menu : ""
-                }
-              >
-                {//find применяет стрелочную ф-ю к каждому эл массива
-                //когда стрелочная ф-я возвр true, find возвр элемент массива
-                //если ничего не найдено find возвр undefined
-                listTask.find(el => el.select) && <ItemMenu />}
-              </div>
+              {((listTask.filter(el => el.select).length === 1 &&
+                listTask.find(el => el.editor)) ||
+                eventAddTask) && (
+                <div className={styles.TextField_and_button}>
+                  <TextField
+                    id="outlined-multiline-static"
+                    multiline
+                    rows="4"
+                    variant="outlined"
+                    onChange={e => setValueTextArea(e.target.value)}
+                    value={valueTextArea}
+                    className={styles.TextField}
+                  />
+                  <Button
+                    variant="outlined"
+                    className={styles.Button_enter}
+                    color="secondary"
+                    onClick={() => {
+                      if (eventAddTask && valueTextArea !== "") {
+                        setValueTextArea("");
+                        addTask(valueTextArea);
+                      } else if (valueTextArea !== "") {
+                        setValueTextArea("");
+                        changeTask(valueTextArea);
+                      }
+                    }}
+                  >
+                    Enter
+                  </Button>
+                </div>
+              )}
             </div>
             {eventSort && (
               <div className={styles.types_sort}>
@@ -134,48 +173,19 @@ const App = props => {
                 <Button onClick={() => randomOrder()} variant="contained">
                   Random
                 </Button>
+                <Button onClick={() => dateSort()} variant="contained">
+                  Date
+                </Button>
               </div>
             )}
-            {listTask.filter(el => el.select).length === 1 &&
-              listTask[listTask.findIndex(el => el.select)].showDate && (
-                <div>
-                  Date the selected task:
-                  {listTask[listTask.findIndex(el => el.select)].date}
-                </div>
-              )}
+            {listTask.find(el => el.select) && onClickCreationDate && onClickCreationDate.showDate ? (
+              <div>
+                <div> Date the selected task:</div>
+                {"" + onClickCreationDate.date}
+              </div>
+            ) : null}
           </div>
         </div>
-        {((listTask.filter(el => el.select).length === 1 &&
-          listTask.find(el => el.editor)) ||
-          eventAddTask) && (
-          <div className={styles.TextField_and_button}>
-            <TextField
-              id="outlined-multiline-static"
-              multiline
-              rows="4"
-              variant="outlined"
-              onChange={e => setValueTextArea(e.target.value)}
-              value={valueTextArea}
-              className={styles.TextField}
-            />
-            <Button
-              variant="outlined"
-              className={styles.Button_enter}
-              color="secondary"
-              onClick={() => {
-                if (eventAddTask && valueTextArea !== "") {
-                  setValueTextArea("");
-                  addTask(valueTextArea);
-                } else if (valueTextArea !== "") {
-                  setValueTextArea("");
-                  changeTask(valueTextArea);
-                }
-              }}
-            >
-              Enter
-            </Button>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -188,11 +198,9 @@ export default connect(state => ({ listTask: state.taskReducer.listTask }), {
   addTask,
   sortTask,
   sortABC,
-  randomOrder
+  randomOrder,
+  dateSort
 })(App);
 
 //как выполняется отрисовка при нажатии на чек бокс
-// как сделать меню появляющееся при наведении на SORT
-// драгон дроп, сортировка
-// запоминать дату создания таски и сделать вкладку информация - где будет эта дата
-//сортировка по дате
+// драгон дроп

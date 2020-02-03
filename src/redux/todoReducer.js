@@ -64,8 +64,10 @@ export const taskReducer = (state = initialState, action) => {
     case types.SELECT_TASK: {
       let stateCopy = { ...state, listTask: [...state.listTask] };
       stateCopy.listTask[action.ind].select = action.select;
-      if (action.select === false)
+      if (action.select === false){
         stateCopy.listTask[action.ind].editor = false;
+        stateCopy.listTask[action.ind].showDate = false;
+      }
       return stateCopy;
     }
     case types.ON_CLICK_COMPLETE: {
@@ -135,6 +137,16 @@ export const taskReducer = (state = initialState, action) => {
        stateCopy.listTask[state.listTask.findIndex(el => el.select)].showDate=
        !stateCopy.listTask[state.listTask.findIndex(el => el.select)].showDate; 
        return stateCopy;
+    }
+    case types.DATE_SORT: {
+      let stateCopy = { ...state, listTask: [...state.listTask] };
+       stateCopy.listTask.sort((a, b)=>{
+         return a.date - b.date
+       })
+       return stateCopy;
+    }
+    case types.UPDATE_ALL: {
+      return {...state, listTask: action.payload.newList}
     }
     default:
       return state;

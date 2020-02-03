@@ -2,6 +2,7 @@
   border: 1px solid orange;
   width: 250px;
 }
+
 .App_wrapper_wrapper {
   display: flex;
   justify-content: center;
@@ -38,7 +39,7 @@
 }
 .App_wrapper {
   height: 465px;
-  width: 500px;
+  min-width: 900px;
 }
 .wrapper_Item_menu {
   border-top: 1px solid orange;
@@ -52,20 +53,18 @@
 .TextField {
   width: 100%;
 }
-.add_task button,
-.button_add_task button:hover {
+.button_add_task Button,
+.button_add_task Button:hover {
   background-color: coral;
 }
 
 .button_add_task_none_style {
 }
 
-.wrapper_button_sort button {
+.wrapper_button_sort button,
+.wrapper_button_sort button:hover {
   background-color: white;
 }
-
-
-
 
 .button_add_and_sort {
   width: 100%;

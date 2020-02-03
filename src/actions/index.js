@@ -10,6 +10,8 @@ export const SORT_TASK = "SORT_TASK";
 export const SORT_TASK_ABC = "SORT_TASK_ABC";
 export const RANDOM_ORDER = "RANDOM_ORDER";
 export const CREATION_DATE = "CREATION_DATE";
+export const DATE_SORT = "DATE_SORT";
+export const UPDATE_ALL = "UPDATE_ALL";
 
 export const checkBoxChangeCreate = ({ select, ind }) => ({
   type: SELECT_TASK,
@@ -56,5 +58,14 @@ export const randomOrder = () => ({
 });
 
 export const creationDate =()=>({
-  type:CREATION_DATE
+  type: CREATION_DATE
+})
+
+export const dateSort = () => ({
+  type: DATE_SORT
+})
+
+export const updateAll = newList => ({
+  type: UPDATE_ALL,
+  payload: newList
 })
