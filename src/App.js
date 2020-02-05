@@ -11,7 +11,9 @@ import {
   sortTask,
   sortABC,
   randomOrder,
-  dateSort
+  dateSort,
+  onDropAction,
+  deleteTasks
 } from "./actions";
 import ItemMenu from "./components/ItemMenu/ItemMenu";
 import TextField from "@material-ui/core/TextField";
@@ -19,11 +21,20 @@ import TextField from "@material-ui/core/TextField";
 //todo: implement render item, remove two call map
 //todo:change call action
 
+const MyButton = props => {
+  const {onClick = ()=>{}, text=''}= props
+  return <button onClick={() => onClick()}>{text}</button>;
+};
 const Item = props => {
-  const { text, checked, onChange = () => {}, onComplete } = props;
-
+  const { text, checked, onChange = () => {}, onComplete, id } = props;
   return (
-    <div className={styles.checkbox_and_button}>
+    <div
+      className={styles.checkbox_and_button}
+      draggable
+      onDragStart={event => props.onDragStart(event, id)}
+      onDragOver={event => props.onDragOver(event)}
+      onDrop={event => props.onDrop(event, "id", id)}
+    >
       <Checkbox
         className={styles.checkbox}
         checked={checked}
@@ -38,9 +49,12 @@ const Item = props => {
             : styles.wrapper_button_non_line_through
         }
       >
-        <Button variant="contained" color="primary">
+        {/*  <Button variant="contained" color="primary">
           {text}
-        </Button>
+        </Button> */}
+        <MyButton onClick = {()=>{
+          props.deleteTasks(id)
+        }}text={text} />
       </div>
     </div>
   );
@@ -56,13 +70,29 @@ const App = props => {
     sortTask,
     sortABC,
     randomOrder,
-    dateSort
+    dateSort,
+    onDropAction,
+    deleteTasks
   } = props;
   let [valueTextArea, setValueTextArea] = useState("");
   let [eventAddTask, setEventAddTask] = useState(false);
   let [eventSort, setEventSort] = useState(false);
 
   const onClickCreationDate = listTask[listTask.findIndex(el => el.showDate)];
+
+  const onDragStart = (event, id) => {
+    event.dataTransfer.setData("id", id);
+  };
+
+  const onDragOver = event => {
+    event.preventDefault();
+  };
+
+  const onDrop = (event, typeId, dropId) => {
+    const dragId = event.dataTransfer.getData(typeId);
+    console.log("dragId ", dragId, " dropId ", dropId);
+    onDropAction(dragId, dropId);
+  };
 
   return (
     <div className={styles.App_wrapper_wrapper}>
@@ -107,10 +137,10 @@ const App = props => {
                 {listTask.map((el, ind) => (
                   <Item
                     key={el.id}
+                    id={el.id}
                     text={el.task}
                     checked={el.select}
                     onChange={e => {
-                      // передаем action<Button variant="contained">Default</Button>
                       checkBoxChangeCreate({
                         ind: ind,
                         select: e.target.checked
@@ -118,6 +148,11 @@ const App = props => {
                     }}
                     onComplete={el.complete}
                     workedComplete={() => workedComplete(ind)}
+                    draggable
+                    onDragStart={event => onDragStart(event, el.id)}
+                    onDragOver={event => onDragOver(event)}
+                    onDrop={event => onDrop(event, "id", el.id)}
+                    deleteTasks={deleteTasks}
                   />
                 ))}
                 <div
@@ -178,7 +213,9 @@ const App = props => {
                 </Button>
               </div>
             )}
-            {listTask.find(el => el.select) && onClickCreationDate && onClickCreationDate.showDate ? (
+            {listTask.find(el => el.select) &&
+            onClickCreationDate &&
+            onClickCreationDate.showDate ? (
               <div>
                 <div> Date the selected task:</div>
                 {"" + onClickCreationDate.date}
@@ -199,7 +236,9 @@ export default connect(state => ({ listTask: state.taskReducer.listTask }), {
   sortTask,
   sortABC,
   randomOrder,
-  dateSort
+  dateSort,
+  onDropAction,
+  deleteTasks
 })(App);
 
 //как выполняется отрисовка при нажатии на чек бокс

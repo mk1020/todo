@@ -64,7 +64,7 @@ export const taskReducer = (state = initialState, action) => {
     case types.SELECT_TASK: {
       let stateCopy = { ...state, listTask: [...state.listTask] };
       stateCopy.listTask[action.ind].select = action.select;
-      if (action.select === false){
+      if (action.select === false) {
         stateCopy.listTask[action.ind].editor = false;
         stateCopy.listTask[action.ind].showDate = false;
       }
@@ -80,10 +80,15 @@ export const taskReducer = (state = initialState, action) => {
       };
     }
     case types.DELETE_TASK: {
-      return {
-        ...state,
-        listTask: state.listTask.filter(task => !task.select)
-      };
+      let stateCopy = { ...state, listTask: [...state.listTask] };
+      if (action.selectKey == -1)
+        stateCopy.listTask = state.listTask.filter(task => !task.select);
+      else
+        stateCopy.listTask = state.listTask.filter(task => {
+          if (task.id !== action.selectKey) return true;
+          return false;
+        });
+      return stateCopy;
     }
     case types.EDIT_TASK: {
       let stateCopy = { ...state, listTask: [...state.listTask] };
@@ -134,19 +139,30 @@ export const taskReducer = (state = initialState, action) => {
     }
     case types.CREATION_DATE: {
       let stateCopy = { ...state, listTask: [...state.listTask] };
-       stateCopy.listTask[state.listTask.findIndex(el => el.select)].showDate=
-       !stateCopy.listTask[state.listTask.findIndex(el => el.select)].showDate; 
-       return stateCopy;
+      stateCopy.listTask[
+        state.listTask.findIndex(el => el.select)
+      ].showDate = !stateCopy.listTask[
+        state.listTask.findIndex(el => el.select)
+      ].showDate;
+      return stateCopy;
     }
     case types.DATE_SORT: {
       let stateCopy = { ...state, listTask: [...state.listTask] };
-       stateCopy.listTask.sort((a, b)=>{
-         return a.date - b.date
-       })
-       return stateCopy;
+      stateCopy.listTask.sort((a, b) => {
+        return a.date - b.date;
+      });
+      return stateCopy;
     }
-    case types.UPDATE_ALL: {
-      return {...state, listTask: action.payload.newList}
+    case types.ON_DROP_ACTION: {
+      let stateCopy = { ...state, listTask: [...state.listTask] };
+      const indexDrag = state.listTask.findIndex(t => t.id == action.dragId);
+      const indexDrop = state.listTask.findIndex(t => t.id == action.dropId);
+      const elementDrop = state.listTask[indexDrop];
+      // console.log("dragId ",action.dragId, " dropId ", action.dropId)
+      console.log("index drag", indexDrag, " index drop ", indexDrop);
+      stateCopy.listTask[indexDrop] = state.listTask[indexDrag];
+      stateCopy.listTask[indexDrag] = elementDrop;
+      return stateCopy;
     }
     default:
       return state;

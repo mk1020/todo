@@ -31,7 +31,7 @@ const ItemMenu = props => {
       >
         Complete
       </Button>
-      <Button variant="outlined" color="secondary" onClick={deleteTasks}>
+      <Button variant="outlined" color="secondary" onClick={()=> deleteTasks(-1)}>
         Delete
       </Button>
 
